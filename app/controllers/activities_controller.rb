@@ -1,5 +1,5 @@
 class ActivitiesController < ApplicationController
-    
+rescue_from ActiveRecord::RecordNotFound, with: :not_found
     def index
         activities = Activity.all
         render json: activities, status: :ok
@@ -16,4 +16,9 @@ class ActivitiesController < ApplicationController
         head :ok
     end
 
+    private
+
+    def not_found
+        render json: {error: "Activity not found"}, status: 404
+    end
 end
